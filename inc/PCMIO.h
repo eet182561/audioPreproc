@@ -3,20 +3,14 @@
 #include <stdio.h>
 #include <types.h>
 
-class PCMReader{
+class PCMIO{
     PCM16 *data = nullptr;
     size_t dataSize = 0;
     public:
-    PCMReader();
+    PCMIO();
     void ReadFile(const char *);
-    ~PCMReader() {
+    void writeFile(const char *) const;
+    ~PCMIO() {
         delete [] data;
     }
-};
-
-class PCMWriter{
-    PCM16 *data;
-    public:
-    PCMWriter();
-    void writeFile(const char *filename);
 };

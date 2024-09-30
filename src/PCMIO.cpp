@@ -1,12 +1,10 @@
-#include <readData.h>
+#include <PCMIO.h>
 #include <iostream>
 
 
-PCMReader::PCMReader(){
-    data = 0;
-}
 
-void PCMReader::ReadFile(const char *filename){
+
+void PCMIO::ReadFile(const char *filename){
     FILE* F1 = fopen(filename, "rb");
     
     if (!F1) {
@@ -46,4 +44,30 @@ void PCMReader::ReadFile(const char *filename){
     fclose(F1);
 
     std::cout << "Successfully read " << bytesRead << " samples from " << filename << std::endl;
+}
+
+void PCMIO::writeFile(const char* filename) const {
+    if (!data || dataSize == 0) {
+        std::cerr << "No data to write to file." << std::endl;
+        return;
+    }
+
+    // Open the file in binary mode for writing
+    FILE* F1 = fopen(filename, "wb");
+    if (!F1) {
+        std::cerr << "Error opening file for writing: " << filename << std::endl;
+        return;
+    }
+
+    // Write the PCM data to the file
+    size_t itemsWritten = fwrite(data, sizeof(PCM16), dataSize, F1);
+
+    if (itemsWritten != dataSize) {
+        std::cerr << "Error writing to file: " << filename << std::endl;
+    } else {
+        std::cout << "Successfully wrote " << itemsWritten << " samples to " << filename << std::endl;
+    }
+
+    // Close the file
+    fclose(F1);
 }
