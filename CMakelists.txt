@@ -1,19 +1,31 @@
-# Minimum version of CMake required
+# Set minimum CMake version
 cmake_minimum_required(VERSION 3.10)
 
-# Project name and version
-project(MyProject VERSION 1.0)
+# Project name
+project(MySolutionProject)
 
-# Specify C++ standard
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+# Set the output directories for the libraries and executables
+set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/libs)
 
-# Include directories (header files)
-include_directories(inc)
+# Add include directories (inc folder and NS for abstract base class)
+include_directories(${CMAKE_SOURCE_DIR}/inc)
+include_directories(${CMAKE_SOURCE_DIR}/NS)
 
-# Collect all source files
-file(GLOB_RECURSE SOURCES "src/*.cpp")
+# Define the SOLUTION variable (default is SBOLL if no other value provided)
+if(NOT DEFINED SOLUTION)
+    set(SOLUTION SBOLL)
+endif()
 
-set(MAIN_FILE "${CMAKE_SOURCE_DIR}/main.cpp")
-# Add executable target
-add_executable(${PROJECT_NAME} ${SOURCES} ${MAIN_FILE})
+message(STATUS "Selected solution: ${SOLUTION}")
+
+# Check which solution to build and set the corresponding source directory
+if(${SOLUTION} STREQUAL "SBOLL")
+    add_subdirectory(NS/SBOLL)
+    # Add other potential subdirectories like below when needed
+    # add_subdirectory(NS/OtherDirs)
+else()
+    message(FATAL_ERROR "Unknown SOLUTION: ${SOLUTION}")
+endif()
+
+# Optionally, add source files from src directory if needed
+# add_executable(my_program src/main.cpp)

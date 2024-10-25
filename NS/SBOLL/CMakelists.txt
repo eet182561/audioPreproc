@@ -1,0 +1,18 @@
+# CMakeLists.txt in NS/SBOLL
+
+# Add source files for the SBOLL solution
+set(SBOLL_SRC_FILES 
+    ns.cpp 
+    # Add more source files for SBOLL here if needed
+)
+
+# Create a library for SBOLL
+add_library(SBOLL_lib ${SBOLL_SRC_FILES})
+
+# Set where to output the library (libs directory in the root folder)
+set_target_properties(SBOLL_lib PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/libs
+)
+
+# Optionally, link with other libraries or add include directories
+# target_link_libraries(SBOLL_lib other_library)
